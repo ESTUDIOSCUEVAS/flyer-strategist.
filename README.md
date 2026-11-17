@@ -1,66 +1,54 @@
-# Flyer Strategist — ROOT ONLY
+# Flyer Strategist — Root V4
 
-Esta versión no usa carpeta `/api`.
+Esta versión mantiene TODO en la raíz y usa `server.ts`.
 
-## Estructura
+Vercel detecta automáticamente `server.ts` en la raíz como una aplicación Node.
 
-Todos los archivos están en la raíz:
+## Archivos
 
 ```text
-Dockerfile
-.dockerignore
 index.html
 styles.css
 app.js
-server.js
+server.ts
 package.json
 README.md
 ```
 
-El mismo `server.js`:
-- sirve el sitio web;
-- responde `GET /analyze` para comprobar que funciona;
-- responde `POST /analyze` para generar el análisis;
-- responde `GET /health`.
+NO uses:
+- carpeta api
+- vercel.json
+- Dockerfile
+- server.js
 
 ## Vercel
 
-Vercel detectará el `Dockerfile` de la raíz y desplegará el proyecto como una aplicación HTTP.
-
-### Configuración
 - Root Directory: `./`
-- Framework Preset: `Other`
-- No uses Build Command personalizado.
-- No uses Output Directory personalizado.
-- No debe existir `vercel.json`.
-- No debe existir carpeta `api`.
+- Framework Preset: Other
+- Build Command: vacío
+- Output Directory: vacío
 
-### Variables de entorno
-Agrega en Vercel:
+Variables:
 
-`OPENAI_API_KEY` = tu clave
-
-Opcional:
-
-`OPENAI_MODEL` = `gpt-6-luna`
+- OPENAI_API_KEY = tu clave
+- opcional OPENAI_MODEL = gpt-6-luna
 
 ## Prueba
 
-Después del deploy abre:
+Después del deploy:
 
-`https://TU-DOMINIO.vercel.app/analyze`
+`/health`
 
-Debe responder:
+debe devolver:
 
-```json
-{
-  "ok": true,
-  "route": "/analyze",
-  "model": "gpt-6-luna",
-  "message": "Flyer Strategist funcionando"
-}
-```
+`{"ok":true,"service":"flyer-strategist"}`
 
-También puedes probar:
+Después:
 
-`https://TU-DOMINIO.vercel.app/health`
+`/analyze`
+
+debe devolver:
+
+`{"ok":true,"route":"/analyze",...}`
+
+Si ambas rutas funcionan, el botón del frontend ya puede analizar los PDFs.
