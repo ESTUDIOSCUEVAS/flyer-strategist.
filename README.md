@@ -1,47 +1,45 @@
-# Flyer Strategist — Marketing Lab
+# Flyer Strategist — versión corregida para Vercel
 
-Bot de dirección creativa que convierte tres PDFs en una propuesta de flyer:
-1. Contexto y objetivo
-2. Buyer Persona
-3. Insight / brief
+Esta versión usa el despliegue **Zero Config** de Vercel.
 
-## Por qué este proyecto no es solo GitHub Pages
-GitHub Pages puede publicar HTML/CSS/JS, pero no debe contener tu `OPENAI_API_KEY`.
-La clave debe vivir en un servidor. Este repositorio está preparado para **Vercel**, conectado a GitHub.
+## Estructura que debe verse en la raíz del repositorio
 
-## Flujo
-- El navegador extrae texto de los PDFs usando PDF.js.
-- El texto se envía a `/api/analyze`.
-- La función serverless usa la OpenAI Responses API.
-- Devuelve diagnóstico, insight, PIENSA/SIENTA/HAGA, mensaje, 3 rutas creativas y un prompt de imagen.
-- El usuario puede conversar con el director creativo para refinar la propuesta.
+```text
+index.html
+styles.css
+app.js
+package.json
+README.md
+api/
+  analyze.js
+```
 
-## Publicación recomendada
+No necesitas `vercel.json`.
 
-### 1. GitHub
-Crea un repositorio, por ejemplo:
-`flyer-strategist`
+Vercel detecta automáticamente `api/analyze.js` como una Vercel Function
+y la publica en:
 
-Sube:
-- `index.html`
-- `styles.css`
-- `app.js`
-- `api/analyze.js`
-- `package.json`
-- `vercel.json`
-- `README.md`
+`/api/analyze`
 
-### 2. Vercel
-1. Entra a Vercel.
-2. Importa el repositorio desde GitHub.
-3. En Project Settings → Environment Variables agrega:
-   - `OPENAI_API_KEY` = tu clave
-   - opcional: `OPENAI_MODEL` = `gpt-6.1-terra`
-4. Deploy.
+## Configuración
 
-No escribas la clave en `app.js`, `index.html` ni en GitHub.
+En Vercel:
 
-## Notas
-- Los PDFs generados por los sitios anteriores contienen texto extraíble y funcionan bien.
-- Un PDF escaneado o compuesto únicamente por imágenes puede no producir texto con PDF.js. En ese caso, usa un PDF exportado desde los sitios o agrega OCR/backend multimodal en una versión posterior.
-- El modelo por defecto es `gpt-6.1-terra`; puedes cambiarlo mediante la variable `OPENAI_MODEL`.
+1. Importa el repositorio desde GitHub.
+2. Ve a **Settings → Environment Variables**.
+3. Agrega:
+   - `OPENAI_API_KEY` = tu clave de OpenAI
+4. Opcional:
+   - `OPENAI_MODEL` = `gpt-6.1-terra`
+5. Haz **Redeploy**.
+
+## Importante
+
+Nunca subas `OPENAI_API_KEY` a GitHub ni la escribas dentro de `app.js`,
+`index.html` o `api/analyze.js`.
+
+## Si ya tienes el repositorio creado
+
+Borra `vercel.json` del repositorio actual y asegúrate de que exista
+`api/analyze.js` dentro de una carpeta llamada exactamente `api`.
+Después haz un nuevo deploy.
