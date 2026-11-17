@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#6d28d9" />
+  <title>Flyer Strategist | Marketing Lab</title>
+  <meta name="description" content="Bot de dirección creativa que convierte PDFs de contexto, Buyer Persona e insight en conceptos de flyer." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">FS</span>
+    <div>
+      <strong>Flyer Strategist</strong>
+      <small>Marketing Lab · De la investigación al diseño</small>
+    </div>
+  </div>
+  <button id="resetBtn" class="btn btn-ghost">Nuevo análisis</button>
+</header>
+
+<main class="shell">
+  <section class="hero">
+    <div class="eyebrow">MÓDULO 4 · DIRECCIÓN CREATIVA</div>
+    <h1>Sube tu investigación. <span>Diseñemos con intención.</span></h1>
+    <p>El bot cruza contexto, Buyer Persona e insight para proponer rutas de flyer justificadas por marketing.</p>
+    <div class="flow">
+      <span>Contexto</span><b>→</b><span>Buyer Persona</span><b>→</b><span>Insight</span><b>→</b><span>Concepto</span><b>→</b><span>Flyer</span>
+    </div>
+  </section>
+
+  <section class="upload-section card">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">PASO 1</span>
+        <h2>Sube tus PDFs</h2>
+      </div>
+      <span id="readyBadge" class="badge">0 / 3 cargados</span>
+    </div>
+
+    <div class="upload-grid">
+      <label class="drop-card" data-slot="context">
+        <input id="contextFile" type="file" accept="application/pdf" hidden>
+        <div class="drop-icon">01</div>
+        <strong>Contexto y objetivo</strong>
+        <span>Situación, dimensiones, hechos, suposiciones y objetivos.</span>
+        <em id="contextStatus">Seleccionar PDF</em>
+      </label>
+
+      <label class="drop-card" data-slot="persona">
+        <input id="personaFile" type="file" accept="application/pdf" hidden>
+        <div class="drop-icon">02</div>
+        <strong>Buyer Persona</strong>
+        <span>Necesidades, motivaciones, barreras, decisiones y canales.</span>
+        <em id="personaStatus">Seleccionar PDF</em>
+      </label>
+
+      <label class="drop-card" data-slot="insight">
+        <input id="insightFile" type="file" accept="application/pdf" hidden>
+        <div class="drop-icon">03</div>
+        <strong>Insight / brief</strong>
+        <span>Tensión, emoción, mensaje, promesa y rutas iniciales.</span>
+        <em id="insightStatus">Seleccionar PDF</em>
+      </label>
+    </div>
+
+    <div class="note">
+      <strong>¿Por qué 3 PDFs?</strong>
+      <span>El bot debe justificar cada propuesta con lo que investigaste. Si falta un PDF, puede continuar, pero marcará los vacíos como supuestos.</span>
+    </div>
+
+    <label class="field">
+      <span>Instrucción adicional (opcional)</span>
+      <textarea id="extraInstruction" rows="3" maxlength="700" placeholder="Ej. Quiero un flyer para Instagram, juvenil, muy directo y sin saturarlo de información."></textarea>
+    </label>
+
+    <button id="analyzeBtn" class="btn btn-primary btn-large" disabled>Analizar y crear rutas de flyer</button>
+    <p id="parseStatus" class="status" aria-live="polite"></p>
+  </section>
+
+  <section id="loadingSection" class="card loading-card" hidden>
+    <div class="spinner"></div>
+    <div>
+      <strong>Analizando la estrategia...</strong>
+      <p>Estoy cruzando contexto, persona, tensión, emoción y objetivo antes de proponer diseño.</p>
+    </div>
+  </section>
+
+  <section id="resultsSection" hidden>
+    <div class="section-title">
+      <span class="eyebrow">PASO 2 · DIAGNÓSTICO</span>
+      <h2>Qué estamos vendiendo realmente</h2>
+    </div>
+
+    <div class="strategy-grid">
+      <article class="strategy-card">
+        <span class="kicker">Producto aparente</span>
+        <h3 id="apparentProduct">—</h3>
+      </article>
+      <article class="strategy-card highlight">
+        <span class="kicker">Lo que realmente busca</span>
+        <h3 id="realJob">—</h3>
+      </article>
+      <article class="strategy-card">
+        <span class="kicker">Tensión principal</span>
+        <h3 id="tension">—</h3>
+      </article>
+      <article class="strategy-card">
+        <span class="kicker">Emoción prioritaria</span>
+        <h3 id="emotion">—</h3>
+      </article>
+    </div>
+
+    <div class="insight-box">
+      <span class="eyebrow">INSIGHT CREATIVO</span>
+      <blockquote id="creativeInsight">—</blockquote>
+      <p id="insightWhy">—</p>
+    </div>
+
+    <div class="section-title">
+      <span class="eyebrow">PASO 3 · MENSAJE</span>
+      <h2>Qué debe comunicar el flyer</h2>
+    </div>
+
+    <div class="message-grid">
+      <article><strong>PIENSE</strong><p id="think">—</p></article>
+      <article><strong>SIENTA</strong><p id="feel">—</p></article>
+      <article><strong>HAGA</strong><p id="do">—</p></article>
+    </div>
+
+    <div class="central-message">
+      <span>MENSAJE CENTRAL</span>
+      <h2 id="centralMessage">—</h2>
+      <p id="promise">—</p>
+    </div>
+
+    <div class="section-title">
+      <span class="eyebrow">PASO 4 · RUTAS CREATIVAS</span>
+      <h2>Tres maneras de convertir la estrategia en un flyer</h2>
+    </div>
+
+    <div id="routes" class="routes-grid"></div>
+
+    <div class="section-title">
+      <span class="eyebrow">PASO 5 · PRODUCCIÓN</span>
+      <h2>Prompt final para generar el flyer</h2>
+    </div>
+
+    <div class="prompt-box">
+      <pre id="imagePrompt"></pre>
+      <div class="prompt-actions">
+        <button id="copyPromptBtn" class="btn btn-primary">Copiar prompt</button>
+        <button id="downloadBriefBtn" class="btn btn-ghost">Descargar brief .txt</button>
+      </div>
+    </div>
+
+    <section class="chat-card">
+      <div class="chat-head">
+        <div>
+          <span class="eyebrow">DIRECTOR CREATIVO</span>
+          <h2>Refina la propuesta conversando</h2>
+        </div>
+      </div>
+      <div id="chatMessages" class="chat-messages">
+        <div class="bubble bot">Ya analicé tu investigación. Puedes pedirme otra ruta, cambiar el tono, cuestionar el mensaje o ajustar el prompt del flyer.</div>
+      </div>
+      <div class="chat-compose">
+        <textarea id="chatInput" rows="2" placeholder="Ej. Haz la ruta 2 menos juvenil y más aspiracional..."></textarea>
+        <button id="sendChatBtn" class="btn btn-primary">Enviar</button>
+      </div>
+    </section>
+  </section>
+</main>
+
+<footer>Marketing Lab · La IA propone; la estrategia debe poder justificarse.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

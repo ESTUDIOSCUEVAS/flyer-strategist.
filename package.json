@@ -1,0 +1,8 @@
+{
+  "name": "flyer-strategist",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "openai": "latest"
+  }
+}
