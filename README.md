@@ -1,6 +1,31 @@
-# Flyer Strategist — Vercel v2
+# Flyer Strategist — Vercel V3
 
-Versión preparada para el runtime actual de Vercel.
+Esta versión usa una función Vercel mínima y explícita:
+
+`api/analyze.js`
+
+La ruta pública debe ser:
+
+`https://TU-PROYECTO.vercel.app/api/analyze`
+
+## Prueba antes de usar el formulario
+
+Después de desplegar, abre directamente:
+
+`/api/analyze`
+
+Debes ver JSON parecido a:
+
+```json
+{
+  "ok": true,
+  "route": "/api/analyze",
+  "model": "gpt-6-luna",
+  "message": "Flyer Strategist API funcionando"
+}
+```
+
+Si eso aparece, el frontend ya puede hacer POST al mismo endpoint.
 
 ## Estructura exacta
 
@@ -11,40 +36,23 @@ app.js
 package.json
 README.md
 api/
-  analyze.mjs
+  analyze.js
 ```
 
-NO debe existir `vercel.json`.
-
-## Vercel
-
-- Root Directory: `./`
-- Application Preset: `Other`
-- Build Command: dejar vacío / automático
-- Output Directory: dejar vacío / automático
-
-### Environment Variables
-
-Obligatoria:
-
-`OPENAI_API_KEY` = tu clave
-
-Opcional:
-
-`OPENAI_MODEL` = `gpt-6-luna`
-
-Si prefieres mayor calidad puedes cambiar la variable por otro modelo disponible en tu cuenta.
-
-## Importante al actualizar un repositorio existente
-
-Subir estos archivos no elimina archivos viejos automáticamente.
-Borra manualmente del repositorio:
-
+NO debe existir:
 - `vercel.json`
-- `api/analyze.js`
-
-y confirma que exista:
-
 - `api/analyze.mjs`
 
-Después haz un commit y vuelve a desplegar.
+## Variables de entorno
+En Vercel → Settings → Environment Variables:
+
+- `OPENAI_API_KEY` = tu clave
+- opcional `OPENAI_MODEL` = `gpt-6-luna`
+
+Luego Redeploy.
+
+## Configuración del proyecto
+- Root Directory: `./`
+- Framework Preset: `Other`
+- Build Command: vacío/automático
+- Output Directory: vacío/automático
