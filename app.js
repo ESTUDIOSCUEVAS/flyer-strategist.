@@ -85,7 +85,7 @@ function render(a){
   $("resultsSection").scrollIntoView({behavior:"smooth",block:"start"});
 }
 async function api(payload){
-  const res=await fetch("/api/analyze",{
+  const res=await fetch("/analyze",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify(payload)

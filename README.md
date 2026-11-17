@@ -1,58 +1,66 @@
-# Flyer Strategist — Vercel V3
+# Flyer Strategist — ROOT ONLY
 
-Esta versión usa una función Vercel mínima y explícita:
+Esta versión no usa carpeta `/api`.
 
-`api/analyze.js`
+## Estructura
 
-La ruta pública debe ser:
+Todos los archivos están en la raíz:
 
-`https://TU-PROYECTO.vercel.app/api/analyze`
+```text
+Dockerfile
+.dockerignore
+index.html
+styles.css
+app.js
+server.js
+package.json
+README.md
+```
 
-## Prueba antes de usar el formulario
+El mismo `server.js`:
+- sirve el sitio web;
+- responde `GET /analyze` para comprobar que funciona;
+- responde `POST /analyze` para generar el análisis;
+- responde `GET /health`.
 
-Después de desplegar, abre directamente:
+## Vercel
 
-`/api/analyze`
+Vercel detectará el `Dockerfile` de la raíz y desplegará el proyecto como una aplicación HTTP.
 
-Debes ver JSON parecido a:
+### Configuración
+- Root Directory: `./`
+- Framework Preset: `Other`
+- No uses Build Command personalizado.
+- No uses Output Directory personalizado.
+- No debe existir `vercel.json`.
+- No debe existir carpeta `api`.
+
+### Variables de entorno
+Agrega en Vercel:
+
+`OPENAI_API_KEY` = tu clave
+
+Opcional:
+
+`OPENAI_MODEL` = `gpt-6-luna`
+
+## Prueba
+
+Después del deploy abre:
+
+`https://TU-DOMINIO.vercel.app/analyze`
+
+Debe responder:
 
 ```json
 {
   "ok": true,
-  "route": "/api/analyze",
+  "route": "/analyze",
   "model": "gpt-6-luna",
-  "message": "Flyer Strategist API funcionando"
+  "message": "Flyer Strategist funcionando"
 }
 ```
 
-Si eso aparece, el frontend ya puede hacer POST al mismo endpoint.
+También puedes probar:
 
-## Estructura exacta
-
-```text
-index.html
-styles.css
-app.js
-package.json
-README.md
-api/
-  analyze.js
-```
-
-NO debe existir:
-- `vercel.json`
-- `api/analyze.mjs`
-
-## Variables de entorno
-En Vercel → Settings → Environment Variables:
-
-- `OPENAI_API_KEY` = tu clave
-- opcional `OPENAI_MODEL` = `gpt-6-luna`
-
-Luego Redeploy.
-
-## Configuración del proyecto
-- Root Directory: `./`
-- Framework Preset: `Other`
-- Build Command: vacío/automático
-- Output Directory: vacío/automático
+`https://TU-DOMINIO.vercel.app/health`
