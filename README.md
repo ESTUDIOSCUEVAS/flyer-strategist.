@@ -1,8 +1,8 @@
-# Flyer Strategist — versión corregida para Vercel
+# Flyer Strategist — Vercel v2
 
-Esta versión usa el despliegue **Zero Config** de Vercel.
+Versión preparada para el runtime actual de Vercel.
 
-## Estructura que debe verse en la raíz del repositorio
+## Estructura exacta
 
 ```text
 index.html
@@ -11,35 +11,40 @@ app.js
 package.json
 README.md
 api/
-  analyze.js
+  analyze.mjs
 ```
 
-No necesitas `vercel.json`.
+NO debe existir `vercel.json`.
 
-Vercel detecta automáticamente `api/analyze.js` como una Vercel Function
-y la publica en:
+## Vercel
 
-`/api/analyze`
+- Root Directory: `./`
+- Application Preset: `Other`
+- Build Command: dejar vacío / automático
+- Output Directory: dejar vacío / automático
 
-## Configuración
+### Environment Variables
 
-En Vercel:
+Obligatoria:
 
-1. Importa el repositorio desde GitHub.
-2. Ve a **Settings → Environment Variables**.
-3. Agrega:
-   - `OPENAI_API_KEY` = tu clave de OpenAI
-4. Opcional:
-   - `OPENAI_MODEL` = `gpt-6.1-terra`
-5. Haz **Redeploy**.
+`OPENAI_API_KEY` = tu clave
 
-## Importante
+Opcional:
 
-Nunca subas `OPENAI_API_KEY` a GitHub ni la escribas dentro de `app.js`,
-`index.html` o `api/analyze.js`.
+`OPENAI_MODEL` = `gpt-6-luna`
 
-## Si ya tienes el repositorio creado
+Si prefieres mayor calidad puedes cambiar la variable por otro modelo disponible en tu cuenta.
 
-Borra `vercel.json` del repositorio actual y asegúrate de que exista
-`api/analyze.js` dentro de una carpeta llamada exactamente `api`.
-Después haz un nuevo deploy.
+## Importante al actualizar un repositorio existente
+
+Subir estos archivos no elimina archivos viejos automáticamente.
+Borra manualmente del repositorio:
+
+- `vercel.json`
+- `api/analyze.js`
+
+y confirma que exista:
+
+- `api/analyze.mjs`
+
+Después haz un commit y vuelve a desplegar.
